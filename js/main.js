@@ -48,3 +48,26 @@ async function loadQaLabStats() {
 }
 
 loadQaLabStats();
+
+async function wireQaRunButton() {
+  const btn = document.getElementById('qaRunButton');
+  if (!btn) return;
+
+  try {
+    const res = await fetch(
+      'https://api.github.com/repos/sriramkukkadapu/portfolio/actions/workflows/deploy.yml/runs?per_page=1',
+      { headers: { Accept: 'application/vnd.github+json' } }
+    );
+    if (!res.ok) return;
+    const data = await res.json();
+    const run = data.workflow_runs && data.workflow_runs[0];
+    if (run && run.html_url) {
+      btn.href = run.html_url;
+      btn.title = `View the ${run.conclusion || run.status} run from ${run.run_started_at?.slice(0, 10) || ''} on GitHub`;
+    }
+  } catch (err) {
+    // Keep the default link to the workflow's runs list.
+  }
+}
+
+wireQaRunButton();

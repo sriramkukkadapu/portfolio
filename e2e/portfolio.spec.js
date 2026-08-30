@@ -82,4 +82,12 @@ test.describe('QA Lab', () => {
       page.locator('.qa-lab-footer').getByRole('link', { name: /View Playwright suite on GitHub/ })
     ).toHaveAttribute('href', /github\.com\/sriramkukkadapu\/portfolio/);
   });
+
+  test('run QA suite button links to the real GitHub Actions run', async ({ page }) => {
+    await page.goto('/');
+    const button = page.locator('#qaRunButton');
+    await expect(button).toBeVisible();
+    await expect(button).toHaveAttribute('href', /github\.com\/sriramkukkadapu\/portfolio\/actions/);
+    await expect(button).toHaveAttribute('target', '_blank');
+  });
 });
