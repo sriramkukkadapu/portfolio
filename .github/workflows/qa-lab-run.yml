@@ -1,0 +1,53 @@
+name: QA Lab live run
+
+on:
+  workflow_dispatch: {}
+
+concurrency:
+  group: qa-lab-run
+  cancel-in-progress: false
+
+jobs:
+  run-suite:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: Run Smoke tests [6]
+        run: npx playwright test --grep "Smoke"
+
+      - name: Run Navigation [24]
+        if: ${{ !cancelled() }}
+        run: npx playwright test --grep "Navigation"
+
+      - name: Run Content integrity [9]
+        if: ${{ !cancelled() }}
+        run: npx playwright test --grep "Content integrity"
+
+      - name: Run Contact links [3]
+        if: ${{ !cancelled() }}
+        run: npx playwright test --grep "Contact links"
+
+      - name: Run QA Lab [12]
+        if: ${{ !cancelled() }}
+        run: npx playwright test --grep "QA Lab"
+
+      - name: Upload Playwright report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: qa-lab-playwright-report
+          path: playwright-report/
+          retention-days: 7

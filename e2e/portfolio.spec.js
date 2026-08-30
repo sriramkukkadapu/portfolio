@@ -83,11 +83,11 @@ test.describe('QA Lab', () => {
     ).toHaveAttribute('href', /github\.com\/sriramkukkadapu\/portfolio/);
   });
 
-  test('run QA suite button links to the real GitHub Actions run', async ({ page }) => {
+  test('run QA suite button is present and enabled', async ({ page }) => {
     await page.goto('/');
     const button = page.locator('#qaRunButton');
     await expect(button).toBeVisible();
-    await expect(button).toHaveAttribute('href', /github\.com\/sriramkukkadapu\/portfolio\/actions/);
-    await expect(button).toHaveAttribute('target', '_blank');
+    await expect(button).toHaveText('RUN QA SUITE');
+    await expect(button).toBeEnabled();
   });
 });

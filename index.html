@@ -136,22 +136,22 @@
         </div>
         <div class="qa-lab-body">
           <div class="qa-test-list" aria-label="Playwright test groups">
-            <div class="qa-test-row"><span class="qa-status">✓</span><span>Smoke tests</span><small>02 tests</small></div>
-            <div class="qa-test-row"><span class="qa-status">✓</span><span>Navigation</span><small>08 tests</small></div>
-            <div class="qa-test-row"><span class="qa-status">✓</span><span>Content integrity</span><small>03 tests</small></div>
-            <div class="qa-test-row"><span class="qa-status">✓</span><span>Contact links</span><small>01 test</small></div>
-            <div class="qa-test-row"><span class="qa-status">✓</span><span>QA Lab</span><small>02 tests</small></div>
+            <div class="qa-test-row"><span class="qa-status">✓</span><span>Smoke tests</span><small>06 tests</small></div>
+            <div class="qa-test-row"><span class="qa-status">✓</span><span>Navigation</span><small>24 tests</small></div>
+            <div class="qa-test-row"><span class="qa-status">✓</span><span>Content integrity</span><small>09 tests</small></div>
+            <div class="qa-test-row"><span class="qa-status">✓</span><span>Contact links</span><small>03 tests</small></div>
+            <div class="qa-test-row"><span class="qa-status">✓</span><span>QA Lab</span><small>12 tests</small></div>
           </div>
           <div class="qa-console" aria-label="Latest Playwright run">
-            <div class="qa-console-bar"><span class="qa-dot"></span><span>PLAYWRIGHT RUNNER</span><span class="qa-console-browser">Chromium · Firefox · WebKit</span></div>
+            <div class="qa-console-bar"><span class="qa-dot"></span><span>PLAYWRIGHT RUNNER</span><span class="qa-console-browser" id="qaLabConsoleBrowser">Chromium · Firefox · WebKit</span></div>
             <div class="qa-console-screen">
               <div class="qa-console-line"><span class="qa-prompt">›</span> <span id="qaLabRunLine">Waiting for test data…</span></div>
               <div class="qa-console-line qa-muted">Numbers above come from the last GitHub Actions run, not a live demo.</div>
               <div class="qa-console-line qa-muted">Last run: <span id="qaLabLastRun">—</span></div>
             </div>
             <div class="qa-lab-actions">
-              <a class="qa-run-button" id="qaRunButton" href="https://github.com/sriramkukkadapu/portfolio/actions/workflows/deploy.yml" target="_blank" rel="noopener">RUN QA SUITE <span aria-hidden="true">↗</span></a>
-              <span>Run the full Playwright regression suite</span>
+              <button class="qa-run-button" id="qaRunButton" type="button">RUN QA SUITE</button>
+              <span id="qaRunHint">Run the full Playwright regression suite</span>
             </div>
           </div>
         </div>
@@ -428,6 +428,10 @@
     <span>© <span id="year"></span></span>
   </div>
 </footer>
+<script>
+  // Set once the QA Lab trigger backend is deployed (see api/README.md).
+  window.QA_LAB_API_BASE = '';
+</script>
 <script src="js/main.js"></script>
 </body>
 </html>
