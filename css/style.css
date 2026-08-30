@@ -180,6 +180,30 @@ a { color: var(--accent); }
   color: var(--text);
 }
 
+.about__intro {
+  display: flex;
+  align-items: flex-start;
+  gap: 28px;
+}
+
+.about__photo {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 3px solid var(--card-bg);
+  box-shadow: 0 0 0 1px var(--border);
+}
+
+@media (max-width: 560px) {
+  .about__intro {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+}
+
 .cards {
   display: grid;
   gap: 18px;
