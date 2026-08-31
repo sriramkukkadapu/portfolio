@@ -6,33 +6,24 @@ really works. Written as a reference for future changes, not a tutorial.
 
 ## 1. Starting point
 
-The brief: build a portfolio similar in spirit to
-[alicepaggi.github.io/portfolio](https://alicepaggi.github.io/portfolio/),
-personalized with Sriram's own resume content, hosted for free.
+The brief: a single-page portfolio for a QA Engineering Manager,
+personalized with Sriram's own resume content, hosted for free, with a
+distinctive twist — a "QA Lab" section where the site demonstrates its
+own quality practice by running (and eventually live-triggering) its
+own Playwright test suite.
 
-Before writing any code, the reference site's actual source was pulled
-down and inspected directly (not guessed from screenshots):
-
-```bash
-curl -s https://alicepaggi.github.io/portfolio/ -o ref.html
-curl -s https://alicepaggi.github.io/portfolio/css/style.css -o ref-style.css
-curl -s https://alicepaggi.github.io/portfolio/css/accessibility.css -o ref-accessibility.css
-curl -s https://alicepaggi.github.io/portfolio/js/main.js -o ref-main.js
-```
-
-That gave the real section structure, class names, CSS custom
-properties, fonts (DM Sans + Space Grotesk), and the QA Lab
-console/metrics markup to mirror — plus confirmation (via the linked
-GitHub repo's file listing) that the site is plain HTML/CSS/JS, no
-framework, deployed straight to GitHub Pages.
+The design direction settled on early: a numbered-section layout (01
+Hero, 02 About, 03 Expertise, …), DM Sans + Space Grotesk as the type
+pairing, card/timeline/grid patterns for expertise and experience, and
+the QA Lab's metrics-and-console visual treatment.
 
 ## 2. Tech stack decisions
 
 - **Plain HTML/CSS/JS** — no build step, easiest to hand-edit content,
-  matches the reference exactly.
+  and there's no need for a framework on a single static page.
 - **Playwright** for the site's own e2e suite (`e2e/portfolio.spec.js`) —
-  the obvious choice given this is a QA/automation portfolio, and it's
-  what the reference site itself does ("this portfolio tests itself").
+  the obvious choice given this is a QA/automation portfolio: "this
+  portfolio tests itself" is the whole point of the QA Lab section.
 - **GitHub Pages** for hosting, **GitHub Actions** for CI/CD — free,
   and keeps everything in one repo.
 - **Vercel** for one small piece only (see §6) — a serverless backend
@@ -73,32 +64,29 @@ edits:
   address — not appropriate for a public page.
 - **Public contact**: Gmail address, LinkedIn, GitHub, and blog —
   all from the resume/user, not invented.
-- **"Personal Projects"** (a section in the reference site) was
-  repurposed as **"Awards & Recognition"**, populated with the real
-  recognitions from the resume (SAP spot awards, the Waldorf/Germany
-  onsite trip, Thoughtworks recruitment recognition, department
-  topper, two SAP appreciation notes) — there was no equivalent
-  "personal side projects" material to put there honestly.
+- **"Awards & Recognition"** was chosen over a generic "personal
+  projects" section, populated with the real recognitions from the
+  resume (SAP spot awards, the Waldorf/Germany onsite trip,
+  Thoughtworks recruitment recognition, department topper, two SAP
+  appreciation notes) — there was no personal side-project material to
+  put there honestly, so the section was shaped around what was true.
 - **"Selected Work"** kept as three highlight cards (pricing-suite
   optimization, Gen AI test generation, Kroger monolith→microservices)
-  but *without* the reference site's linked case-study sub-pages,
-  since there's no case-study write-up material to build those from.
+  without linked case-study sub-pages, since there's no case-study
+  write-up material to build those from yet.
 - Photo: user-supplied headshot, resized/compressed locally with
   macOS `sips` (1.2MB PNG → ~80KB JPEG) before adding to `assets/`.
 
 ## 5. Visual design
 
-The reference site's CSS was used as a structural template — same
-section layout, typography scale, card/timeline/grid patterns — but
-recolored from its teal palette to an indigo/blue one, keeping the same
-CSS custom-property architecture so the swap was a small, contained
-diff:
+The CSS is built around a small set of custom properties so the whole
+palette can shift from one place:
 
 ```css
 :root {
-  --bg: #f7f7f9;       /* was a warm off-white */
-  --text: #181a23;     /* was near-black green-grey */
-  --accent: #5b6ee6;   /* was teal #42c7ce */
+  --bg: #f7f7f9;       /* warm off-white */
+  --text: #181a23;     /* near-black navy */
+  --accent: #5b6ee6;   /* indigo/blue */
   --accent-dark: #3a48b8;
   ...
 }
@@ -120,9 +108,8 @@ This went through three iterations:
    Truthful, zero infrastructure, but not "live" — it didn't start
    anything.
 3. **Final pass** (current) — the button genuinely dispatches a new
-   GitHub Actions run and polls it in real time, matching the reference
-   site's behavior. This needed a backend, because GitHub Pages only
-   serves static files.
+   GitHub Actions run and polls it in real time. This needed a
+   backend, because GitHub Pages only serves static files.
 
 ### 6.1 Why a *separate* workflow for live runs
 
