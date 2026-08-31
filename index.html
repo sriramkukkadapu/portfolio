@@ -136,11 +136,79 @@
         </div>
         <div class="qa-lab-body">
           <div class="qa-test-list" aria-label="Playwright test groups">
-            <div class="qa-test-row"><span class="qa-status">✓</span><span>Smoke tests</span><small>06 tests</small></div>
-            <div class="qa-test-row"><span class="qa-status">✓</span><span>Navigation</span><small>24 tests</small></div>
-            <div class="qa-test-row"><span class="qa-status">✓</span><span>Content integrity</span><small>09 tests</small></div>
-            <div class="qa-test-row"><span class="qa-status">✓</span><span>Contact links</span><small>03 tests</small></div>
-            <div class="qa-test-row"><span class="qa-status">✓</span><span>QA Lab</span><small>12 tests</small></div>
+            <div class="qa-test-row">
+              <button class="qa-test-toggle" type="button" aria-expanded="false" aria-controls="qa-test-details-0">
+                <span class="qa-status">✓</span>
+                <span class="qa-title">Smoke tests</span>
+                <small class="qa-count">06 tests</small>
+                <span class="qa-test-chevron" aria-hidden="true">⌄</span>
+              </button>
+              <div class="qa-test-details" id="qa-test-details-0" hidden>
+                <ul>
+                  <li>Home page loads with the right title</li>
+                  <li>Hero section renders headline and CTAs</li>
+                </ul>
+              </div>
+            </div>
+            <div class="qa-test-row">
+              <button class="qa-test-toggle" type="button" aria-expanded="false" aria-controls="qa-test-details-1">
+                <span class="qa-status">✓</span>
+                <span class="qa-title">Navigation</span>
+                <small class="qa-count">24 tests</small>
+                <span class="qa-test-chevron" aria-hidden="true">⌄</span>
+              </button>
+              <div class="qa-test-details" id="qa-test-details-1" hidden>
+                <ul>
+                  <li>Nav link scrolls to each section (about, expertise, QA Lab, experience, work, education, contact)</li>
+                  <li>Every section referenced in the nav exists exactly once</li>
+                </ul>
+              </div>
+            </div>
+            <div class="qa-test-row">
+              <button class="qa-test-toggle" type="button" aria-expanded="false" aria-controls="qa-test-details-2">
+                <span class="qa-status">✓</span>
+                <span class="qa-title">Content integrity</span>
+                <small class="qa-count">09 tests</small>
+                <span class="qa-test-chevron" aria-hidden="true">⌄</span>
+              </button>
+              <div class="qa-test-details" id="qa-test-details-2" hidden>
+                <ul>
+                  <li>Experience timeline lists all four roles</li>
+                  <li>Expertise section shows four skill cards</li>
+                  <li>Education lists both degrees</li>
+                </ul>
+              </div>
+            </div>
+            <div class="qa-test-row">
+              <button class="qa-test-toggle" type="button" aria-expanded="false" aria-controls="qa-test-details-3">
+                <span class="qa-status">✓</span>
+                <span class="qa-title">Contact links</span>
+                <small class="qa-count">03 tests</small>
+                <span class="qa-test-chevron" aria-hidden="true">⌄</span>
+              </button>
+              <div class="qa-test-details" id="qa-test-details-3" hidden>
+                <ul>
+                  <li>Contact section has working mailto, LinkedIn, GitHub and blog links</li>
+                </ul>
+              </div>
+            </div>
+            <div class="qa-test-row">
+              <button class="qa-test-toggle" type="button" aria-expanded="false" aria-controls="qa-test-details-4">
+                <span class="qa-status">✓</span>
+                <span class="qa-title">QA Lab</span>
+                <small class="qa-count">15 tests</small>
+                <span class="qa-test-chevron" aria-hidden="true">⌄</span>
+              </button>
+              <div class="qa-test-details" id="qa-test-details-4" hidden>
+                <ul>
+                  <li>Metrics block renders three stats</li>
+                  <li>Test group list renders five rows</li>
+                  <li>Test group rows expand to show the real test titles</li>
+                  <li>Link to the GitHub test suite is present</li>
+                  <li>Run QA suite button is present and enabled</li>
+                </ul>
+              </div>
+            </div>
           </div>
           <div class="qa-console" aria-label="Latest Playwright run">
             <div class="qa-console-bar"><span class="qa-dot"></span><span>PLAYWRIGHT RUNNER</span><span class="qa-console-browser" id="qaLabConsoleBrowser">Chromium · Firefox · WebKit</span></div>

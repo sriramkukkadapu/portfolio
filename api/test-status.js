@@ -5,7 +5,7 @@ const GROUPS = [
   { step: 'Run Navigation [24]', total: 24 },
   { step: 'Run Content integrity [9]', total: 9 },
   { step: 'Run Contact links [3]', total: 3 },
-  { step: 'Run QA Lab [12]', total: 12 },
+  { step: 'Run QA Lab [15]', total: 15 },
 ];
 const TOTAL_TESTS = GROUPS.reduce((sum, g) => sum + g.total, 0);
 

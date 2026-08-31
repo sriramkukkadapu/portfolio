@@ -18,8 +18,20 @@ if (navToggle && navMenu) {
   });
 }
 
+document.querySelectorAll('#qa-lab .qa-test-row').forEach((row) => {
+  const toggle = row.querySelector('.qa-test-toggle');
+  const details = row.querySelector('.qa-test-details');
+  if (!toggle || !details) return;
+
+  toggle.addEventListener('click', () => {
+    const isOpen = row.classList.toggle('is-open');
+    toggle.setAttribute('aria-expanded', String(isOpen));
+    details.hidden = !isOpen;
+  });
+});
+
 async function loadQaLabStats() {
-  const fallback = { total: '54', browsers: '3', passRate: '—', lastRun: '—' };
+  const fallback = { total: '57', browsers: '3', passRate: '—', lastRun: '—' };
   let data = fallback;
 
   try {
@@ -62,9 +74,9 @@ loadQaLabStats();
     { step: 'Run Navigation [24]' },
     { step: 'Run Content integrity [9]' },
     { step: 'Run Contact links [3]' },
-    { step: 'Run QA Lab [12]' },
+    { step: 'Run QA Lab [15]' },
   ];
-  const TOTAL_TESTS = 54;
+  const TOTAL_TESTS = 57;
 
   const button = document.getElementById('qaRunButton');
   const lab = document.querySelector('.qa-lab');

@@ -40,7 +40,7 @@ jobs:
         if: ${{ !cancelled() }}
         run: npx playwright test --grep "Contact links"
 
-      - name: Run QA Lab [12]
+      - name: Run QA Lab [15]
         if: ${{ !cancelled() }}
         run: npx playwright test --grep "QA Lab"
 

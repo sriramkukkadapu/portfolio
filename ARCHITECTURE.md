@@ -146,7 +146,7 @@ step-level `conclusion` in the Jobs API corresponds to one test group:
 - name: Run Navigation [24]
   if: ${{ !cancelled() }}
   run: npx playwright test --grep "Navigation"
-# ...Content integrity [9], Contact links [3], QA Lab [12]
+# ...Content integrity [9], Contact links [3], QA Lab [15]
 ```
 
 `if: ${{ !cancelled() }}` (not `continue-on-error`) is deliberate: with
@@ -273,6 +273,16 @@ The committed e2e test for the button
 only checks the button exists, is enabled, and reads "RUN QA SUITE" —
 it never actually clicks it, precisely to avoid that self-triggering
 risk during CI runs.
+
+### 6.5 Expandable test lists
+
+Each row in the QA Lab test-group list expands (a plain click handler
+in `js/main.js`, no framework) to show the actual test titles from
+`e2e/portfolio.spec.js` for that group — copied verbatim from the spec
+file, not summarized, so what's displayed is exactly what runs. Adding
+a test to the "QA Lab" describe block itself is what pushed its count
+from 12 to 15 (4 → 5 real tests × 3 browsers), which is why that number
+appears in several places per §6.1's warning.
 
 ## 7. Everyday maintenance
 

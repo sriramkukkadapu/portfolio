@@ -76,6 +76,16 @@ test.describe('QA Lab', () => {
     await expect(page.locator('#qa-lab .qa-test-row')).toHaveCount(5);
   });
 
+  test('test group rows expand to show the real test titles', async ({ page }) => {
+    await page.goto('/');
+    const row = page.locator('#qa-lab .qa-test-row').first();
+    const details = row.locator('.qa-test-details');
+    await expect(details).toBeHidden();
+    await row.locator('.qa-test-toggle').click();
+    await expect(details).toBeVisible();
+    await expect(details.getByText('Home page loads with the right title')).toBeVisible();
+  });
+
   test('link to the GitHub test suite is present', async ({ page }) => {
     await page.goto('/');
     await expect(
