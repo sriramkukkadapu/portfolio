@@ -4,6 +4,41 @@ How this portfolio was built, in the order it actually happened — tech
 choices, the GitHub/Vercel setup, and how the "RUN QA SUITE" button
 really works. Written as a reference for future changes, not a tutorial.
 
+## In plain English
+
+No coding background needed for this section — it's the whole project
+in everyday terms. Everything after it gets progressively more
+technical, for whoever picks this up next.
+
+- **What this is**: a personal website (a "portfolio") — one scrolling
+  page with sections like About, Experience, and Contact. No app to
+  install, nothing to log into; anyone with the link can just open it
+  in a browser.
+- **Where it lives**: it's hosted by GitHub, for free, using a feature
+  called *GitHub Pages* — think of it as GitHub agreeing to also show
+  the project's files as a real website, not just store the code.
+- **What makes it a "QA" portfolio**: beyond just listing testing
+  skills, the site includes a small robot-checklist called the **QA
+  Lab**. It automatically re-checks that the website itself still
+  works correctly — the buttons go where they should, the contact
+  links are correct, the page loads properly — every time it's
+  updated. That checklist is called a *test suite*, and the tool
+  running it is called *Playwright*.
+- **What "RUN QA SUITE" does**: clicking that button on the live site
+  kicks off a fresh run of that checklist right then and there, and the
+  page shows the results updating in real time — which tests passed,
+  how many are left, whether anything failed — instead of just showing
+  an old result from earlier.
+- **Why that needed extra plumbing**: the website itself is just
+  static pages (like a PDF sitting on a server) — it can't *run*
+  anything on its own. So a small separate helper program was built to
+  sit in between: it receives the button click, asks GitHub to actually
+  run the checklist, and reports back what's happening. That helper
+  runs on a different free service called **Vercel**.
+- **Everything else in this document** is the engineering detail behind
+  those five bullet points — which tool does what, which settings had
+  to be changed, and why — kept here so the reasoning isn't lost later.
+
 ## 1. Starting point
 
 The brief: a single-page portfolio for a QA Engineering Manager,
@@ -94,6 +129,11 @@ palette can shift from one place:
 
 ## 6. The QA Lab: from static, to honest-but-static, to genuinely live
 
+*In short: the "last test results" number went from a fixed snapshot,
+to a link to old results, to something that actually runs fresh, live,
+on click. This section is the story of getting from the first to the
+last.*
+
 This went through three iterations:
 
 1. **First pass** — QA Lab metrics were populated from
@@ -112,6 +152,12 @@ This went through three iterations:
    backend, because GitHub Pages only serves static files.
 
 ### 6.1 Why a *separate* workflow for live runs
+
+*In short: there are two checklists behind the scenes, not one — one
+runs quietly whenever the site's code changes, the other only runs
+when a visitor clicks the button. Keeping them separate means a
+visitor clicking the button can never accidentally trigger a real
+re-publish of the site, and vice versa.*
 
 `.github/workflows/deploy.yml` (push-triggered) runs the full suite as
 one `npm test` step, then builds and deploys the site. It was **not**
@@ -157,6 +203,13 @@ in `qa-lab-run.yml`, the `GROUPS` array in `api/test-status.js`, and the
 
 ### 6.2 The serverless backend (Vercel)
 
+*In short: this is the small helper program mentioned above — it
+doesn't run all the time like a normal server, it just wakes up for a
+split second whenever the button is clicked or the page asks "how's it
+going?", does its one job, and goes back to sleep. That's what
+"serverless" means here — no server sitting there idling 24/7, just
+on-demand code.*
+
 Two functions, deployed from the *same* GitHub repo as a separate
 Vercel project (Vercel auto-detects the `api/` folder):
 
@@ -199,6 +252,11 @@ by the user directly (the token never passed through this session):
    `index.html`, right before `js/main.js` loads.
 
 ### 6.3 Client-side wiring (`js/main.js`)
+
+*In short: this is the part of the page's own code that reacts to the
+click — it asks the helper program to start, then keeps checking back
+every couple of seconds and updating the numbers and checkmarks on
+screen until it's done.*
 
 An IIFE reads `window.QA_LAB_API_BASE`. If it's empty (i.e. no backend
 configured), clicking the button just reports "Live triggering isn't
