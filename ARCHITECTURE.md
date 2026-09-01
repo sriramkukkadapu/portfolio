@@ -271,6 +271,28 @@ configured:
   the live GitHub Actions run once one exists.
 - Stops polling once `status === "completed"`.
 
+The browser never talks to GitHub directly at any point — only to
+Vercel. Spelled out end to end, one click is exactly five hops:
+
+1. **Browser → Vercel**: clicking the button calls
+   `POST {API_BASE}/api/run-tests` on the Vercel function.
+2. **Vercel → GitHub (start)**: that function calls GitHub's own REST
+   API — `POST .../actions/workflows/qa-lab-run.yml/dispatches` — using
+   the secret token. This is the actual instruction that tells GitHub
+   "start this workflow."
+3. **GitHub** spins up the Actions run: installs dependencies, then
+   runs the Playwright suite in its five named steps.
+4. **Vercel → GitHub (repeatedly)**: every 2 seconds, the browser polls
+   `GET {API_BASE}/api/test-status?run_id=...`, and each time *that*
+   function asks GitHub's API "what's this run's status and step
+   results right now?"
+5. **Browser** renders whatever Vercel reports back — the metrics,
+   status icons, and console line are just a reflection of GitHub's
+   answer, nothing computed client-side.
+
+The token only ever exists inside Vercel's environment (step 2 and 4);
+it's never sent to, or readable from, the browser.
+
 ```mermaid
 sequenceDiagram
     participant Visitor
